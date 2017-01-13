@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <style>
+      img {
+          display: none;
+      }
+
+      a {
+        cursor: pointer;
+
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="the-canvas" width="576" height="576">
+    </canvas>
+    <div>
+      <input type="text" id="text">
+      <button id="generate">generate</button>
+      <a id="download">download</a>
+    </div>
+    
+    <script>
+    var canvas = document.getElementById('the-canvas');
+    var ctx = canvas.getContext('2d')
+    
+    
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+
+    function downloadCanvas(link, canvasId, filename) {
+      link.href = document.getElementById(canvasId).toDataURL();
+      link.download = filename;
+    }
+
+    function deleteText() {
+      ctx.clearRect(0, 0, canvas.width, 150);
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, canvas.width, 150);
+    }
+
+    function updateText() {
+      deleteText();
+      ctx.fillStyle = "black";
+      ctx.font = '50px sans-serif';
+      var text = document.getElementById('text').value;
+      // console.log(text);
+      var textWidth = ctx.measureText(text).width;
+      // console.log(textWidth);
+      var x = (canvas.width - textWidth)/2;
+      // console.log(x);
+      
+      ctx.fillText(text, x, 100);
+    }
+    img.onload = function() {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      document.getElementById('generate').addEventListener('click', updateText);
+      document.getElementById('download').addEventListener('click', function() {
+        downloadCanvas(this, 'the-canvas', 'fake.png');
+      })
+    }
+
+    img.src = './img/fake.jpg';
+    </script>
+  </body>
+</html>
