@@ -3,7 +3,7 @@
 * @Date:   2017-01-14T00:08:42+08:00
 * @Email:  lisnb.h@hotmail.com
 * @Last modified by:   lisnb
-* @Last modified time: 2017-01-14T10:19:30+08:00
+* @Last modified time: 2017-01-14T12:03:11+08:00
 */
 
 html, body {
@@ -20,6 +20,6 @@ html, body {
   margin-right: auto;
 }
 
-.layers {
-
+#operate-panel {
+  margin-top: 30px;
 }

@@ -3,7 +3,7 @@
 * @Date:   2017-01-13T23:40:10+08:00
 * @Email:  lisnb.h@hotmail.com
 * @Last modified by:   lisnb
-* @Last modified time: 2017-01-14T11:02:43+08:00
+* @Last modified time: 2017-01-14T11:53:40+08:00
 */
 $ximoji = {};
 
@@ -12,8 +12,8 @@ $ximoji = {};
 // $ximoji.emojiSrc = './emoji.jpg';
 // $ximoji.emojiSrc = './raw_emoji/emoij1.jpg';
 
-// $ximoji.emojiRoot = './raw_emoji/'
-$ximoji.emojiRoot = './'
+$ximoji.emojiRoot = './raw_emoji/'
+// $ximoji.emojiRoot = './'
 
 $ximoji.emojiSrc = $ximoji.emojiRoot + location.hash.substr(1);
 
@@ -78,11 +78,11 @@ $ximoji.saveImage = function(quality, callback) {
 
 $ximoji.addLayerIndicator = function(key, text) {
   var currentLayer = [
-    '<li><span>',
-    text,
-    '</span><a class="delete-layer" data-layer=',
+    '<li class="delete-layer" data-layer="',
     key.toString(),
-    '>x</a></li>'].join('');
+    '">',
+    text,
+    '(点击删除)</li>'].join('');
   var layers = document.getElementById('layers');
   layers.innerHTML += currentLayer;
 }
@@ -102,10 +102,11 @@ function deleteTextLayer(target) {
   console.log(target);
   var key = target.dataset.layer;
   $ximoji.deleteLayer(key);
-  target.parentNode.parentNode.removeChild(target.parentNode);
+  target.parentNode.removeChild(target);
 }
 
 window.onload = function() {
+  console.log('window onload');
   $ximoji.stage = new Konva.Stage({
     container: 'canvas-panel',
     width: 400,
@@ -121,6 +122,14 @@ window.onload = function() {
     })
   });
   document.addEventListener('click',function(e){
+    console.log('bind click');
+    if(e.target && e.target.className == 'delete-layer'){
+      deleteTextLayer(e.target);
+      e.preventDefault();
+    }
+  })
+  document.addEventListener('touchend',function(e){
+    console.log('bind click');
     if(e.target && e.target.className == 'delete-layer'){
       deleteTextLayer(e.target);
       e.preventDefault();
