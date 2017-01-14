@@ -3,7 +3,7 @@
 * @Date:   2017-01-13T23:40:10+08:00
 * @Email:  lisnb.h@hotmail.com
 * @Last modified by:   lisnb
-* @Last modified time: 2017-01-14T11:53:40+08:00
+* @Last modified time: 2017-01-14T12:35:26+08:00
 */
 $ximoji = {};
 
@@ -52,14 +52,14 @@ $ximoji.addImageLayer = function(imageSrc) {
   imageObj.src = imageSrc;
 }
 
-$ximoji.addTextLayer = function(text, size) {
+$ximoji.addTextLayer = function(text, size, color) {
   var simpleText = new Konva.Text({
     x: 20,
     y: 20,
     text: text,
     fontSize: size,
     fontFamily: 'Calibri',
-    fill: 'black',
+    fill: color,
     draggable: true
   });
   var textLayer = new Konva.Layer();
@@ -71,7 +71,7 @@ $ximoji.addTextLayer = function(text, size) {
 }
 
 $ximoji.saveImage = function(quality, callback) {
-  var url = $ximoji.stage.toDataURL({quality: quality});
+  var url = $ximoji.stage.toDataURL({quality: quality, mimetype: 'image/jpeg'});
   callback(url);
   return url;
 }
@@ -93,7 +93,8 @@ function addTextLayer() {
     return;
   }
   var fontSize = Number.parseInt(document.getElementById('font-size').value);
-  var key = $ximoji.addTextLayer(text, fontSize);
+  var textColor = document.querySelector('input[name="text-color"]:checked').value;
+  var key = $ximoji.addTextLayer(text, fontSize, textColor);
   $ximoji.addLayerIndicator(key, text);
   return key;
 }

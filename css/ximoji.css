@@ -3,7 +3,7 @@
 * @Date:   2017-01-14T00:08:42+08:00
 * @Email:  lisnb.h@hotmail.com
 * @Last modified by:   lisnb
-* @Last modified time: 2017-01-14T12:03:11+08:00
+* @Last modified time: 2017-01-14T12:30:32+08:00
 */
 
 html, body {
@@ -22,4 +22,21 @@ html, body {
 
 #operate-panel {
   margin-top: 30px;
+}
+
+.raw-emoji {
+  width: 200px;
+}
+
+.operate-field {
+  margin-top: 15px;
+}
+
+.operate-field input, output {
+  margin-right: 20px;
+}
+
+output {
+  margin-left: -10px;
+  margin-right: 30px;
 }

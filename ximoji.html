@@ -3,7 +3,7 @@
 @Date:   2017-01-13T22:04:36+08:00
 @Email:  lisnb.h@hotmail.com
 @Last modified by:   lisnb
-@Last modified time: 2017-01-14T11:02:42+08:00
+@Last modified time: 2017-01-14T12:30:07+08:00
 -->
 
 <!DOCTYPE html>
@@ -18,12 +18,21 @@
   <div id="canvas-panel"></div>
 
   <div id="operate-panel">
-    <input type="range" min=10 max=100 step=5 value=40 id="font-size" onchange="fontsizeoutput.value=value">
-    <output id="fontsizeoutput">40</output>
-    <input type="text" id="text" placeholder="在这里输入...">
-    <button id="add-text-button">添加文字</button>
+    <div class="operate-field">
+      <input type="range" min=10 max=100 step=5 value=40 id="font-size" onchange="fontsizeoutput.value=value">
+      <output id="fontsizeoutput">40</output>
+      <label><input type="radio" name="text-color" value="black" checked>黑色</label>
+      <label style="color:red"><input type="radio" name="text-color" value="red">红色</label>
+    </div>
+    <div class="operate-field">
+      <input type="text" id="text" placeholder="在这里输入...">
+      <button id="add-text-button">添加文字</button>
+    </div>
+    <div class="operate-field">
+      <button id="download-button">下载</button>
+    </div>
   </div>
-  <button id="download-button">下载</button>
+
 
   <div id="layers-panel">
     <ul id="layers"></ul>
