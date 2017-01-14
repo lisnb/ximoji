@@ -3,22 +3,36 @@
 * @Date:   2017-01-13T23:40:10+08:00
 * @Email:  lisnb.h@hotmail.com
 * @Last modified by:   lisnb
-* @Last modified time: 2017-01-14T00:32:41+08:00
+* @Last modified time: 2017-01-14T11:02:43+08:00
 */
 $ximoji = {};
 
 
 
-$ximoji.emojiSrc = './emoji.jpg';
+// $ximoji.emojiSrc = './emoji.jpg';
 // $ximoji.emojiSrc = './raw_emoji/emoij1.jpg';
 
-$ximoji.sizes = {
-  'large': 50,
-  'midium': 40,
-  'small': 30
-}
+// $ximoji.emojiRoot = './raw_emoji/'
+$ximoji.emojiRoot = './'
+
+$ximoji.emojiSrc = $ximoji.emojiRoot + location.hash.substr(1);
 
 $ximoji.layers = {}
+
+$ximoji.layerKey = 1;
+
+$ximoji.getLayerKey = function() {
+  $ximoji.layerKey += 1;
+  return $ximoji.layerKey - 1;
+}
+
+$ximoji.deleteLayer = function(key) {
+  if ($ximoji.layers.hasOwnProperty(key)) {
+    $ximoji.layers[key].remove();
+    $ximoji.layers[key].destroy();
+    delete $ximoji.layers[key]
+  }
+}
 
 $ximoji.addImageLayer = function(imageSrc) {
   var imageLayer = new Konva.Layer();
@@ -32,7 +46,7 @@ $ximoji.addImageLayer = function(imageSrc) {
       image: imageObj
     })
     imageLayer.add(konvaImage);
-    $ximoji.layers[new Date()] = imageLayer;
+    $ximoji.layers[$ximoji.getLayerKey()] = imageLayer;
     $ximoji.stage.add(imageLayer);
   }
   imageObj.src = imageSrc;
@@ -50,8 +64,10 @@ $ximoji.addTextLayer = function(text, size) {
   });
   var textLayer = new Konva.Layer();
   textLayer.add(simpleText);
-  $ximoji.layers[new Date()] = textLayer;
+  var key = $ximoji.getLayerKey();
+  $ximoji.layers[key] = textLayer;
   $ximoji.stage.add(textLayer);
+  return key;
 }
 
 $ximoji.saveImage = function(quality, callback) {
@@ -60,6 +76,16 @@ $ximoji.saveImage = function(quality, callback) {
   return url;
 }
 
+$ximoji.addLayerIndicator = function(key, text) {
+  var currentLayer = [
+    '<li><span>',
+    text,
+    '</span><a class="delete-layer" data-layer=',
+    key.toString(),
+    '>x</a></li>'].join('');
+  var layers = document.getElementById('layers');
+  layers.innerHTML += currentLayer;
+}
 
 function addTextLayer() {
   var text = document.getElementById('text').value;
@@ -67,7 +93,16 @@ function addTextLayer() {
     return;
   }
   var fontSize = Number.parseInt(document.getElementById('font-size').value);
-  $ximoji.addTextLayer(text, fontSize);
+  var key = $ximoji.addTextLayer(text, fontSize);
+  $ximoji.addLayerIndicator(key, text);
+  return key;
+}
+
+function deleteTextLayer(target) {
+  console.log(target);
+  var key = target.dataset.layer;
+  $ximoji.deleteLayer(key);
+  target.parentNode.parentNode.removeChild(target.parentNode);
 }
 
 window.onload = function() {
@@ -85,5 +120,10 @@ window.onload = function() {
       window.open(url, '_blank');
     })
   });
-
+  document.addEventListener('click',function(e){
+    if(e.target && e.target.className == 'delete-layer'){
+      deleteTextLayer(e.target);
+      e.preventDefault();
+    }
+  })
 }

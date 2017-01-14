@@ -3,7 +3,7 @@
 * @Date:   2017-01-14T00:08:42+08:00
 * @Email:  lisnb.h@hotmail.com
 * @Last modified by:   lisnb
-* @Last modified time: 2017-01-14T00:37:01+08:00
+* @Last modified time: 2017-01-14T10:19:30+08:00
 */
 
 html, body {
@@ -11,13 +11,15 @@ html, body {
   background: black;
   margin: 0;
   padding: 0;
-}
-
-output {
   color: white;
 }
+
 
 #canvas-panel div {
   margin-left: auto;
   margin-right: auto;
+}
+
+.layers {
+
 }

@@ -1,0 +1,35 @@
+<!--
+@Author: lisnb
+@Date:   2017-01-13T22:04:36+08:00
+@Email:  lisnb.h@hotmail.com
+@Last modified by:   lisnb
+@Last modified time: 2017-01-14T11:02:42+08:00
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Ximoji</title>
+  <link rel="stylesheet" href="./css/ximoji.css">
+</head>
+<body>
+  <div id="canvas-panel"></div>
+
+  <div id="operate-panel">
+    <input type="range" min=10 max=100 step=5 value=40 id="font-size" onchange="fontsizeoutput.value=value">
+    <output id="fontsizeoutput">40</output>
+    <input type="text" id="text" placeholder="在这里输入...">
+    <button id="add-text-button">添加文字</button>
+  </div>
+  <button id="download-button">下载</button>
+
+  <div id="layers-panel">
+    <ul id="layers"></ul>
+  </div>
+
+  <script src="./js/konva.min.js"></script>
+  <script src="./js/ximoji.js"></script>
+  </body>
+</html>
