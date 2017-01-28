@@ -118,7 +118,7 @@ window.onload = function() {
 
   document.getElementById('add-text-button').addEventListener('click', addTextLayer);
   document.getElementById('download-button').addEventListener('click', function() {
-    $ximoji.saveImage(0.1, function(url){
+    $ximoji.saveImage(0.4, function(url){
       window.open(url, '_blank');
     })
   });
