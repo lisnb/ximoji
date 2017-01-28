@@ -3,7 +3,7 @@
 @Date:   2017-01-13T22:04:36+08:00
 @Email:  lisnb.h@hotmail.com
 @Last modified by:   lisnb
-@Last modified time: 2017-01-14T12:30:07+08:00
+@Last modified time: 2017-01-28T14:26:14+08:00
 -->
 
 <!DOCTYPE html>
@@ -18,6 +18,9 @@
   <div id="canvas-panel"></div>
 
   <div id="operate-panel">
+    <div class="operate-field hidden" id="uploaded-image-field">
+      <label><input type="file" id="uploaded-image" name="uploaded-image">点击上传图片</label>
+    </div>
     <div class="operate-field">
       <input type="range" min=10 max=100 step=5 value=40 id="font-size" onchange="fontsizeoutput.value=value">
       <output id="fontsizeoutput">40</output>

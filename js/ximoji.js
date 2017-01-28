@@ -3,7 +3,7 @@
 * @Date:   2017-01-13T23:40:10+08:00
 * @Email:  lisnb.h@hotmail.com
 * @Last modified by:   lisnb
-* @Last modified time: 2017-01-28T13:42:17+08:00
+* @Last modified time: 2017-01-28T14:48:03+08:00
 */
 $ximoji = {};
 
@@ -14,8 +14,8 @@ $ximoji = {};
 
 $ximoji.emojiRoot = './raw_emoji/'
 // $ximoji.emojiRoot = './'
-
-$ximoji.emojiSrc = $ximoji.emojiRoot + location.hash.substr(1);
+$ximoji.emojiName = location.hash.substr(1);
+$ximoji.emojiSrc = $ximoji.emojiRoot + $ximoji.emojiName;
 
 $ximoji.layers = {}
 
@@ -34,12 +34,23 @@ $ximoji.deleteLayer = function(key) {
   }
 }
 
+function calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
+
+    var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+
+    return { width: srcWidth*ratio, height: srcHeight*ratio };
+ }
+
 $ximoji.addImageLayer = function(imageSrc) {
   var imageLayer = new Konva.Layer();
   var imageObj = new Image();
   imageObj.onload = function() {
-    $ximoji.stage.setWidth(imageObj.width);
-    $ximoji.stage.setHeight(imageObj.height);
+    var rightSize = calculateAspectRatioFit(imageObj.width, imageObj.height, 400, 400);
+    console.log(rightSize);
+    imageObj.width = rightSize.width;
+    imageObj.height = rightSize.height;
+    $ximoji.stage.setWidth(rightSize.width);
+    $ximoji.stage.setHeight(rightSize.height);
     var konvaImage = new Konva.Image({
       x: 0,
       y: 0,
@@ -106,17 +117,14 @@ function deleteTextLayer(target) {
   target.parentNode.removeChild(target);
 }
 
-window.onload = function() {
-  console.log('window onload');
-  $ximoji.stage = new Konva.Stage({
-    container: 'canvas-panel',
-    width: 400,
-    height: 400
-  });
 
-  $ximoji.addImageLayer($ximoji.emojiSrc);
-
+function attachEventListener() {
   document.getElementById('add-text-button').addEventListener('click', addTextLayer);
+  document.getElementById('text').addEventListener('keyup', function(event) {
+    if (event.key == 'Enter') {
+      addTextLayer();
+    }
+  })
   document.getElementById('download-button').addEventListener('click', function() {
     $ximoji.saveImage(0.4, function(url){
       window.open(url, '_blank');
@@ -136,4 +144,43 @@ window.onload = function() {
       e.preventDefault();
     }
   })
+}
+
+function handleImage(e, callback){
+    var reader = new FileReader();
+    reader.onload = function(event){
+        callback(event.target.result);
+        return;
+    }
+    reader.readAsDataURL(e.target.files[0]);
+}
+
+
+function getImageSrc(callback) {
+  if (!$ximoji.emojiName || $ximoji.emojiName == 'upload') {
+    console.log('getImageSrc');
+    var uploadImageField = document.getElementById('uploaded-image-field');
+    uploadImageField.classList.remove('hidden');
+    var imageInput = document.getElementById('uploaded-image');
+    imageInput.addEventListener('change', function(e) {
+      handleImage(e, callback);
+    }, false);
+  } else {
+    callback($ximoji.emojiSrc);
+  }
+
+}
+
+window.onload = function() {
+  console.log('window onload');
+  $ximoji.stage = new Konva.Stage({
+    container: 'canvas-panel',
+    width: 400,
+    height: 400
+  });
+
+  getImageSrc($ximoji.addImageLayer);
+  // $ximoji.addImageLayer($ximoji.emojiSrc);
+
+  attachEventListener();
 }
