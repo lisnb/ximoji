@@ -3,7 +3,7 @@
 * @Date:   2017-01-13T23:40:10+08:00
 * @Email:  lisnb.h@hotmail.com
 * @Last modified by:   lisnb
-* @Last modified time: 2017-01-14T12:35:26+08:00
+* @Last modified time: 2017-01-28T13:42:17+08:00
 */
 $ximoji = {};
 
@@ -71,7 +71,7 @@ $ximoji.addTextLayer = function(text, size, color) {
 }
 
 $ximoji.saveImage = function(quality, callback) {
-  var url = $ximoji.stage.toDataURL({quality: quality, mimetype: 'image/jpeg'});
+  var url = $ximoji.stage.toDataURL({quality: quality, mimeType: 'image/jpeg'});
   callback(url);
   return url;
 }
